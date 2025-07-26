@@ -1,192 +1,251 @@
+/* :rootでカラーパレットを定義。色の変更が容易になります */
+:root {
+  --bg-color: #101820; /* 背景色 (ほぼ黒に近い紺) */
+  --surface-color: #1a2a3a; /* セクションの背景色 (少し明るい紺) */
+  --primary-accent: #00ffff; /* 基調色 (aqua) */
+  --secondary-accent: #00dddd; /* ホバーやボーダー用の少し暗いaqua */
+  --text-color: #e0e0e0; /* 基本の文字色 (オフホワイト) */
+  --text-muted-color: #a0a0a0; /* やや薄い文字色 */
+  --border-color: #334a60; /* ボーダーの色 */
+  --code-bg-color: #0d1117; /* コードブロックの背景色 */
+}
+
 /* 基本設定とフォント */
 body {
-    font-family: 'Noto Sans JP', sans-serif;
-    line-height: 1.7;
-    margin: 0;
-    background-color: #f8f9fa; /* 明るいグレーの背景 */
-    color: #343a40; /* 濃いグレーの文字色 */
+  font-family: 'Noto Sans JP', sans-serif;
+  line-height: 1.8;
+  margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* コンテナ */
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 20px;
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-/* ヒーローセクション（ヘッダー） */
+/* --- ヘッダーとフッター --- */
 .hero {
-    background-color: #4A148C; /* 紫系の背景 */
-    color: #ffffff;
-    padding: 60px 20px;
-    text-align: center;
-    border-bottom: 5px solid #7B1FA2;
+  background: linear-gradient(135deg, var(--surface-color), var(--bg-color));
+  padding: 80px 20px 60px;
+  text-align: center;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .hero h1 {
-    margin: 0;
-    font-size: 2.5rem;
-    font-weight: 700;
+  margin: 0;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--primary-accent);
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
 }
 
 .hero p {
-    font-size: 1.1rem;
-    opacity: 0.9;
-    margin-top: 10px;
+  font-size: 1.1rem;
+  color: var(--text-muted-color);
+  margin-top: 15px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* メインコンテンツ */
+footer {
+  background-color: var(--bg-color);
+  color: var(--text-muted-color);
+  text-align: center;
+  padding: 30px 20px;
+  margin-top: 40px;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.9rem;
+}
+
+/* --- セクションと見出し --- */
 main {
-    padding: 30px 0;
+  padding: 40px 0;
 }
 
 section {
-    background-color: #ffffff;
-    margin-bottom: 30px;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  background-color: var(--surface-color);
+  margin-bottom: 40px;
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  /* 将来のJSアニメーション用のトランジション */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 255, 255, 0.1);
 }
 
 h2 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #4A148C; /* ヒーローセクションと合わせた色 */
-    border-bottom: 2px solid #E1BEE7; /* 薄い紫の下線 */
-    padding-bottom: 10px;
-    margin-top: 0;
-    margin-bottom: 20px;
+  font-size: 2.2rem;
+  color: var(--primary-accent);
+  border-bottom: 2px solid var(--secondary-accent);
+  padding-bottom: 15px;
+  margin: 0 0 25px 0;
 }
 
-/* 画像 */
-.logo-image {
-    display: block;
-    max-width: 150px;
-    height: auto;
-    margin: 20px auto 30px;
+h3 {
+  font-size: 1.6rem;
+  color: #ffffff;
+  margin-top: 40px;
+  margin-bottom: 15px;
 }
 
-/* リスト（箇条書き） */
-ul, ol {
-    padding-left: 25px;
+h4 {
+  font-size: 1.2rem;
+  color: var(--text-muted-color);
+  font-weight: 700;
+  margin-top: 25px;
+  margin-bottom: 10px;
 }
 
-li {
-    margin-bottom: 10px;
+hr {
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(0,0,0,0), var(--border-color), rgba(0,0,0,0));
+  margin: 60px 0;
 }
 
-/* リンク */
+/* --- コンテンツ要素 --- */
 a {
-    color: #007bff; /* 標準的なリンク色 */
-    text-decoration: none;
-    transition: color 0.3s ease;
+  color: var(--primary-accent);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
 }
 
 a:hover {
-    color: #0056b3; /* ホバー時の色 */
-    text-decoration: underline;
+  color: #ffffff;
+  text-shadow: 0 0 8px var(--primary-accent);
 }
 
-.reference-links ul {
-    list-style-type: none;
-    padding-left: 0;
+ul, ol {
+  padding-left: 25px;
 }
 
-.reference-links a {
-    font-weight: bold;
+li {
+  margin-bottom: 12px;
 }
 
-/* フッター */
-footer {
-    background-color: #343a40; /* 暗いフッター背景 */
-    color: #f8f9fa;
-    text-align: center;
-    padding: 20px;
-    font-size: 0.9rem;
+strong {
+  color: var(--secondary-accent);
 }
 
-/* レスポンシブデザイン */
-@media (max-width: 768px) {
-    .hero h1 {
-        font-size: 2rem;
-    }
-
-    h2 {
-        font-size: 1.5rem;
-    }
-
-    section {
-        padding: 20px;
-    }
-}
-
-/* main.css に追記 */
-
-/* コードブロックのスタイル */
-pre {
-    background-color: #2d2d2d; /* 暗い背景 */
-    color: #f8f8f2; /* 明るい文字色 */
-    padding: 20px;
-    border-radius: 8px;
-    overflow-x: auto; /* 横スクロールを可能に */
-    font-family: 'Source Code Pro', monospace;
-    font-size: 0.95rem;
-    line-height: 1.5;
-}
-
-code {
-    font-family: 'Source Code Pro', monospace;
-}
-
-/* テーブルのスタイル */
-.table-container {
-    overflow-x: auto; /* スマホ表示で横スクロール */
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-th, td {
-    border: 1px solid #dee2e6;
-    padding: 12px 15px;
-    text-align: left;
-}
-
-thead th {
-    background-color: #4A148C;
-    color: #ffffff;
-    font-weight: 700;
-}
-
-tbody tr:nth-of-type(even) {
-    background-color: #f8f9fa;
-}
-
-tbody tr:hover {
-    background-color: #e9ecef;
-}
-
-td strong {
-    color: #343a40;
-}
-
-/* main.css に追記 */
-
+/* --- 画像の配置とサイズ --- */
 .language-logos {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 50px; /* ロゴ間のスペース */
-  margin: 40px 0; /* 上下の余白 */
+  gap: 60px; /* ロゴ間のスペース */
+  margin: 40px 0;
   padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
+  background-color: var(--bg-color);
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
 }
 
 .logo-image-small {
-  max-width: 100px; /* ロゴの最大幅を指定 */
+  max-width: 90px;
   height: auto;
+  opacity: 0.8;
+  /* 将来のJSアニメーション用のトランジション */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.logo-image-small:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* --- コードとテーブル --- */
+pre {
+  background-color: var(--code-bg-color);
+  color: #f8f8f2;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  overflow-x: auto;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+code {
+  font-family: 'Source Code Pro', monospace;
+  background-color: rgba(0, 255, 255, 0.1);
+  color: var(--primary-accent);
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 25px;
+}
+
+th, td {
+  border: 1px solid var(--border-color);
+  padding: 12px 15px;
+  text-align: left;
+}
+
+thead th {
+  background-color: var(--primary-accent);
+  color: var(--bg-color);
+  font-weight: 700;
+}
+
+tbody tr:nth-of-type(even) {
+  background-color: rgba(0, 255, 255, 0.05);
+}
+
+tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+  background-color: rgba(0, 255, 255, 0.15);
+}
+
+/* --- レスポンシブデザイン --- */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+  
+  h2 {
+    font-size: 1.8rem;
+  }
+  
+  h3 {
+    font-size: 1.4rem;
+  }
+
+  section {
+    padding: 20px;
+  }
+  
+  .language-logos {
+    flex-direction: column;
+    gap: 30px;
+  }
 }
