@@ -119,3 +119,56 @@ footer {
         padding: 20px;
     }
 }
+
+/* main.css に追記 */
+
+/* コードブロックのスタイル */
+pre {
+    background-color: #2d2d2d; /* 暗い背景 */
+    color: #f8f8f2; /* 明るい文字色 */
+    padding: 20px;
+    border-radius: 8px;
+    overflow-x: auto; /* 横スクロールを可能に */
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+code {
+    font-family: 'Source Code Pro', monospace;
+}
+
+/* テーブルのスタイル */
+.table-container {
+    overflow-x: auto; /* スマホ表示で横スクロール */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #dee2e6;
+    padding: 12px 15px;
+    text-align: left;
+}
+
+thead th {
+    background-color: #4A148C;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+tbody tr:nth-of-type(even) {
+    background-color: #f8f9fa;
+}
+
+tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+td strong {
+    color: #343a40;
+}
