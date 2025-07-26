@@ -172,3 +172,21 @@ tbody tr:hover {
 td strong {
     color: #343a40;
 }
+
+/* main.css に追記 */
+
+.language-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px; /* ロゴ間のスペース */
+  margin: 40px 0; /* 上下の余白 */
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.logo-image-small {
+  max-width: 100px; /* ロゴの最大幅を指定 */
+  height: auto;
+}
