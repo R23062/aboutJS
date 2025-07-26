@@ -1,0 +1,55 @@
+/* main.css */
+
+/* 基本的なリセットとタイポグラフィ */
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* Tailwind CSS handles font-family, text-color, and line-height */
+}
+
+/* コンテナの幅と中央寄せはTailwind CSSの`container`, `mx-auto`で処理 */
+/* パディングはTailwind CSSの`p-4`, `md:p-8`で処理 */
+
+/* ヘッダーのスタイル */
+/* h1, p のスタイルはTailwind CSSで直接指定 */
+
+/* セクションのスタイル */
+/* 背景色、パディング、角丸、影はTailwind CSSで直接指定 */
+
+/* 見出しのスタイル */
+/* h2 のスタイルはTailwind CSSで直接指定 */
+
+/* 段落のスタイル */
+/* p のスタイルはTailwind CSSで直接指定 */
+
+/* 画像のスタイル */
+img {
+    max-width: 100%; /* レスポンシブ対応 */
+    height: auto; /* アスペクト比を維持 */
+    display: block; /* 余分なスペースを削除 */
+    /* 角丸と影はTailwind CSSで直接指定 */
+}
+
+/* リストのスタイル */
+ul {
+    list-style-type: disc; /* デフォルトのディスク */
+    /* パディングとスペースはTailwind CSSで直接指定 */
+}
+
+/* リンクのスタイル */
+a {
+    text-decoration: none; /* 下線を削除 */
+    /* 色とホバー効果はTailwind CSSで直接指定 */
+}
+
+/* フッターのスタイル */
+/* テキスト色、サイズ、マージンはTailwind CSSで直接指定 */
+
+/*
+    このCSSファイルは、Tailwind CSSが提供するユーティリティクラスを補完するために存在します。
+    多くのスタイルはHTML内のTailwindクラスによって直接適用されているため、
+    ここでは一般的な要素のデフォルトスタイルや、Tailwindでカバーしきれない
+    特定のカスタムスタイルを定義することを想定しています。
+    この例では、Tailwind CSSが強力なため、CSSファイルには最小限の記述しかありません。
+*/
