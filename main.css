@@ -249,3 +249,59 @@ tbody tr:hover {
     gap: 30px;
   }
 }
+
+/* main.css の末尾に追記 */
+
+/* --- アニメーション用のスタイル --- */
+.animate-on-scroll {
+  /* 初期状態: 透明で少し下に配置 */
+  opacity: 0;
+  transform: translateY(30px);
+  /* アニメーションの設定 */
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.animate-on-scroll.visible {
+  /* 表示状態: 不透明で元の位置に */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* --- トップへ戻るボタンのスタイル --- */
+#back-to-top-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--primary-accent);
+  color: var(--bg-color);
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 255, 255, 0.3);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  /* 初期状態: 非表示で下に隠れている */
+  opacity: 0;
+  transform: translateY(100px);
+  visibility: hidden;
+  
+  /* アニメーションの設定 */
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+}
+
+#back-to-top-btn.show {
+  /* 表示状態: 不透明で元の位置に */
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+#back-to-top-btn:hover {
+  background-color: #fff;
+  box-shadow: 0 6px 16px rgba(0, 255, 255, 0.5);
+}
