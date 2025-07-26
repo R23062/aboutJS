@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Source+Code+Pro&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -22,46 +22,111 @@
         <section id="intro">
             <h2>はじめに: 関数型プログラミングとは？</h2>
             <p>
-                関数型プログラミングは、計算を数学的な関数の評価として扱い、状態の変更や可変データ（mutable data）を避けることを目指すプログラミングパラダイムです。JavaScriptとHaskellは、このパラダイムに対して異なるアプローチを取っています。
+                関数型プログラミング（Functional Programming, FP）は、プログラムの構成要素として**「純粋な関数」**の組み合わせを基本に据えるプログラミングパラダイムです。状態の変更や可変データ（mutable data）を避け、「宣言的」に「何を」達成したいかを記述することに重きを置きます。
+                <br><br>
+                近年、状態管理の複雑さを軽減できる点から、JavaScript界隈でもFPの考え方が注目されています。一方で、Haskellは純粋関数型言語として、その思想を言語の根幹から体現しています。ここでは、両者のアプローチの違いを詳しく見ていきましょう。
             </p>
         </section>
 
         <section id="javascript">
-            <h2>JavaScriptにおける関数型プログラミング</h2>
+            <h2>JavaScript: 柔軟なマルチパラダイム言語</h2>
             <img src="javascript-logo.png" alt="JavaScript Logo" class="logo-image">
             <p>
-                JavaScriptはマルチパラダイム言語であり、関数を第一級オブジェクトとして扱います。これにより、関数を変数に代入したり、他の関数の引数として渡したり、戻り値として返すことができ、関数型プログラミングの多くの概念を実装できます。
+                JavaScriptは、関数を第一級オブジェクトとして扱うため、関数型プログラミングの多くの機能を利用できます。しかし、それはあくまで選択肢の一つであり、言語レベルでの強制はありません。
             </p>
-            <ul>
-                <li><strong>高階関数:</strong> <code>map()</code>, <code>filter()</code>, <code>reduce()</code> のような配列メソッドが標準で備わっています。</li>
-                <li><strong>純粋性:</strong> 純粋関数を書くことは推奨されますが、言語レベルで強制はされません。副作用（Side Effects）を伴う処理も自由に記述できます。</li>
-                <li><strong>不変性 (Immutability):</strong> <code>const</code> で再代入を防げますが、オブジェクトや配列の内部は変更可能です。不変性を徹底するには、規約やライブラリ（例: Immer.js）が必要です。</li>
-            </ul>
+            
+            <h3>第一級関数と高階関数</h3>
+            <p>
+                関数を変数に格納したり、他の関数の引数や戻り値として扱えることを「第一級関数」と呼びます。これを利用し、関数を引数に取る関数（高階関数）を容易に作成できます。<code>map</code>や<code>filter</code>はその代表例です。
+            </p>
+<pre><code>// 高階関数 filter の使用例
+const numbers = [1, 2, 3, 4, 5, 6];
+const isEven = (n) => n % 2 === 0;
+const evenNumbers = numbers.filter(isEven); // [2, 4, 6]
+</code></pre>
+
+            <h3>純粋性: 規律としての実践</h3>
+            <p>
+                純粋な関数（同じ入力に対して常に同じ出力を返し、副作用を持たない関数）を書くことは可能ですが、JavaScriptは副作用（コンソール出力、DOM操作、API通信など）を自由に許します。純粋性を保つかどうかは、開発者の規律に委ねられます。
+            </p>
+<pre><code>// 純粋ではない関数の例（外部の状態に依存）
+let taxRate = 1.1;
+function calculatePrice(price) {
+  return price * taxRate; // taxRateが外部で変更されると結果が変わる
+}
+</code></pre>
+            
+            <h3>不変性 (Immutability): 手動での実現</h3>
+            <p>
+                <code>const</code> は変数の「再代入」を防ぎますが、オブジェクトや配列の「中身」の変更（ミューテーション）は防げません。不変性を保つには、スプレッド構文などを用いて意図的に新しいオブジェクトを作成する工夫が必要です。
+            </p>
+<pre><code>// constでもオブジェクトの中身は変更可能
+const user = { name: "Alice" };
+user.name = "Bob"; // これはエラーにならない
+
+// 不変性を保つには新しいオブジェクトを作成する
+const updatedUser = { ...user, age: 30 };
+</code></pre>
         </section>
 
         <section id="haskell">
-            <h2>Haskellにおける関数型プログラミング</h2>
+            <h2>Haskell: 純粋性を貫く言語</h2>
             <img src="haskell-logo.png" alt="Haskell Logo" class="logo-image">
             <p>
-                Haskellは「純粋関数型プログラミング言語」です。関数型プログラミングの原則が言語の核となっており、すべての機能がその思想に基づいて設計されています。
+                Haskellは、その設計思想の核として「純粋性」を据えています。これにより、プログラムの予測可能性や安全性が劇的に向上します。
             </p>
-            <ul>
-                <li><strong>純粋性:</strong> デフォルトですべての関数は純粋です。副作用を伴う処理（I/Oなど）は、モナド(Monad)という特別な仕組みを使って厳密に分離・管理されます。</li>
-                <li><strong>強力な静的型付け:</strong> コンパイル時、すべての式の型が検査されるため、多くのエラーを未然に防ぎます。型推論も非常に強力です。</li>
-                <li><strong>不変性 (Immutability):</strong> データはデフォルトで不変です。一度作成したデータ構造を変更することはできず、変更が必要な場合は新しいデータ構造を作成します。</li>
-                <li><strong>遅延評価:</strong> 式は、その値が実際に必要になるまで評価されません。これにより、無限のデータ構造を扱えるなどの利点があります。</li>
-            </ul>
+            
+            <h3>純粋性と副作用の厳格な分離</h3>
+            <p>
+                Haskellでは、すべての関数がデフォルトで純粋です。ファイルの読み書きやデータベースへのアクセスといった副作用を伴う処理は、<code>IO</code>モナドのような特別な型を持つ値として表現されます。これにより、関数の型シグネチャ（型定義）を見るだけで、その関数が副作用を持つかどうかが一目瞭然になります。
+            </p>
+<pre><code>-- 関数の型シグネチャ
+-- `String` を受け取り、副作用を伴って `()` (Unit) を返す
+putStrLn :: String -> IO ()
+
+-- `Int` を2つ受け取り、純粋に `Int` を返す
+add :: Int -> Int -> Int
+add x y = x + y
+</code></pre>
+            
+            <h3>強力な静的型付けと型推論</h3>
+            <p>
+                Haskellはコンパイル時に厳格な型チェックを行いますが、開発者がすべての型を明記する必要はありません。コンパイラが文脈から型を推論する「型推論」が非常に強力なため、安全でありながらも簡潔なコードを記述できます。
+            </p>
+
+            <h3>デフォルトでの不変性</h3>
+            <p>
+                Haskellでは、一度作成したデータは変更不可能です。変数への再代入という概念もありません。データに変更を加えたい場合は、元のデータに基づいて新しいデータを作成します。これにより、意図しない状態変更に起因するバグを根本的に排除します。
+            </p>
+
+            <h3>遅延評価</h3>
+            <p>
+                式は、その値がプログラムの最終出力で実際に必要になるまで評価されません。この「遅延評価」により、無限リストのような理論上は無限に続くデータ構造を効率的に扱うことができます。
+            </p>
         </section>
 
         <section id="comparison">
-            <h2>まとめ: 主な違い</h2>
-            <p>両者のアプローチは、プロジェクトの要件や開発者の哲学によって選択されます。</p>
+            <h2>まとめ: 設計思想の根本的な違い</h2>
+            <p>
+                JavaScriptが既存の命令型プログラミングにFPのツールを取り入れて利便性を高めているのに対し、HaskellはFPの原則を貫くことでプログラムの堅牢性と安全性を追求しています。
+            </p>
             <ol>
-                <li><strong>純粋性の強制力:</strong> Haskellは厳格に純粋性を強制しますが、JavaScriptは柔軟です。</li>
-                <li><strong>型システム:</strong> Haskellの静的型付けに対し、JavaScriptは動的型付けです（TypeScriptで静的型付けを追加可能）。</li>
-                <li><strong>副作用の扱い:</strong> Haskellはモナドで管理し、JavaScriptは自由に記述できます。</li>
-                <li><strong>不変性の扱い:</strong> Haskellはデフォルトで不変、JavaScriptは手動またはライブラリで実現します。</li>
+                <li><strong>純粋性:</strong>
+                    Haskellは「デフォルトで純粋、副作用は明示的に分離」、JavaScriptは「副作用が自由、純粋性は規律で維持」。
+                </li>
+                <li><strong>型システム:</strong>
+                    Haskellは「強力な静的型付けと型推論」、JavaScriptは「動的型付け」（TypeScriptで静的型付けを導入可能）。
+                </li>
+                <li><strong>不変性:</strong>
+                    Haskellは「デフォルトで不変」、JavaScriptは「手動で実現（規約やライブラリが必要）」。
+                </li>
+                <li><strong>評価戦略:</strong>
+                    Haskellは「遅延評価」、JavaScriptは「正格評価（Eager Evaluation）」。
+                </li>
             </ol>
+            <p>
+                どちらの言語が良いというわけではなく、プロジェクトの目的やチームのスキルセットに応じて、適切なツールとアプローチを選択することが重要です。
+            </p>
         </section>
 
         <section class="reference-links">
