@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>【詳細解説】JavaScriptとHaskellにおける関数型プログラミングの比較</title>
+    <title>【体系的解説】関数型プログラミング: JavaScriptとHaskellによるアプローチの探求</title>
     <link rel="stylesheet" href="main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,207 +13,318 @@
 
     <header class="hero">
         <div class="container">
-            <h1>JavaScriptとHaskell<br>関数型プログラミングスタイルの詳細比較</h1>
-            <p>両言語における関数型パラダイムの設計思想、実装、およびその理論的背景を深く探る。</p>
+            <h1>関数型プログラミングの体系的探求</h1>
+            <p>JavaScriptとHaskellを比較し、その設計思想と実践を深く理解する</p>
         </div>
     </header>
 
     <main class="container">
-        <section id="intro">
-            <h2>序論: なぜこの比較が重要なのか</h2>
+        <section id="fp-overview">
+            <h2>1. 関数型プログラミング（FP）とは何か</h2>
             <p>
-                関数型プログラミング（FP）は、計算を数学的な関数の評価としてモデル化し、状態の変更とデータの可変性を最小化するパラダイムです。このアプローチは、プログラムの正当性を証明しやすく、並行処理にも強いという特性から、現代のソフトウェア開発においてその重要性を増しています。
-                <br><br>
-                JavaScriptは、Webのデファクトスタンダードとして進化する中で、FPのパターンを柔軟に取り入れてきました。一方、Haskellは学術研究から生まれた純粋関数型言語であり、FPの原則を妥協なく追求しています。この両極端なアプローチを詳細に比較することで、関数型プログラミングの本質と、実用上のトレードオフを深く理解することができます。
+                関数型プログラミングとは、計算を<strong>数学的な関数の評価</strong>として捉え、<strong>状態の変更や可変データを避ける</strong>ことを中心に据えた宣言的なプログラミングパラダイムです。命令型プログラミングが「どのように（How）」問題を解決するかを逐次的に記述するのに対し、関数型プログラミングは「何を（What）」達成したいかを記述します。
             </p>
+            <h3>1.1. 厳密な定義と核心思想</h3>
+            <p>
+                FPの核心は、<strong>副作用（Side Effect）</strong>を厳格に管理し、プログラムの大部分を<strong>純粋な関数</strong>で構成することにあります。純粋な関数とは、同じ入力に対して常に同じ出力を返し、外部の状態に影響を与えない（あるいは影響されない）関数のことです。この性質は<strong>参照透過性</strong>と呼ばれ、プログラムの動作を予測しやすくし、テストやデバッグ、並行処理を劇的に容易にします。
+            </p>
+            <h3>1.2. 用途と適性</h3>
+            <p>
+                状態変化に起因する複雑さを低減できるため、FPは以下のような領域で特に強力です。
+            </p>
+            <ul>
+                <li><strong>データ処理パイプライン:</strong> 大量データの変換、フィルタリング、集計など、一連の処理を関数の合成として表現できます（例: Apache Spark）。</li>
+                <li><strong>複雑なUIの状態管理:</strong> ユーザーインタラクションによる状態変化を、一貫性のあるルールで管理するのに適しています（例: React/Reduxアーキテクチャ）。</li>
+                <li><strong>並行・並列処理:</strong> データが不変であるため、複数のスレッドが同時にデータにアクセスしても競合状態（Race Condition）が発生せず、安全に並列化できます。</li>
+                <li><strong>コンパイラ・DSL（ドメイン固有言語）:</strong> コードの構文解析や変換といった処理は、関数の合成と非常に相性が良いです。</li>
+            </ul>
+            <h3>1.3. FPが利用できる言語</h3>
+            <p>
+                FPは特定の言語に限定されるものではなく、多くの言語でその概念がサポートされています。
+            </p>
+            <ol>
+                <li><strong>純粋関数型言語:</strong> Haskell, Elm など。FPの原則を言語仕様レベルで強制します。</li>
+                <li><strong>ハイブリッド言語:</strong> Scala, F#, OCaml, Clojure など。FPを主軸としつつ、オブジェクト指向や命令型の機能も併せ持ちます。</li>
+                <li><strong>FP機能を備えた言語:</strong> JavaScript/TypeScript, Python, Rust, Swift, Kotlin など。第一級関数や高階関数をサポートし、FPスタイルでのプログラミングが可能です。</li>
+            </ol>
         </section>
+        <hr>
 
-        <section id="javascript">
-            <h2>JavaScript: 実用主義的な関数型プログラミング</h2>
-            <img src="javascript-logo.png" alt="JavaScript Logo" class="logo-image">
-            <p>
-                JavaScriptの強みは、その柔軟性にあります。オブジェクト指向、命令型、そして関数型といった複数のパラダイムを、開発者が自由に組み合わせることが許されています。
-            </p>
-            
-            <h3>第一級関数と高階関数、そしてクロージャ</h3>
-            <p>
-                JavaScriptにおける関数の強力さは、それが「第一級オブジェクト」である点に起因します。これにより、関数はデータと同様に扱え、高階関数（関数を引数に取る、または関数を返す関数）の実装が容易になります。この性質を支えるのが**クロージャ**です。クロージャは、関数が定義された時点のスコープ（レキシカルスコープ）を記憶する機能であり、これにより関数がスコープ外で実行されても、定義時の環境にアクセスできます。
-            </p>
-<pre><code class="language-js">// クロージャを利用したカウンターの例
-function createCounter() {
-  let count = 0;
-  return function() {
-    count++;
-    return count;
-  };
+        <section id="fp-concepts">
+            <h2>2. 関数型プログラミングの構成要素</h2>
+            <p>ここではFPを支える主要な概念を一つずつ取り上げ、JavaScriptとHaskellでのアプローチを比較します。</p>
+
+            <div class="concept">
+                <h3>2.1. 純粋性と副作用（参照透過性）</h3>
+                <p>
+                    プログラムの予測可能性の根幹をなす概念です。純粋な関数は、外部環境から隔離された安全な計算単位となります。
+                </p>
+                <h4>JavaScriptでのアプローチ: 規律としての純粋性</h4>
+                <p>
+                    JSでは純粋な関数を書くことは可能ですが、言語はそれを強制しません。副作用は自由に記述でき、純粋性を保つかは開発者の意識に依存します。
+                </p>
+<pre><code class="language-js">// 純粋な関数: 参照透過性を持つ
+const pureAdd = (a, b) => a + b;
+
+// 純粋でない関数: グローバル変数という副作用に依存
+let globalModifier = 10;
+const impureAdd = (a) => a + globalModifier;
+
+// 純粋でない関数: console.logという副作用を持つ
+const logAndReturn = (value) => {
+  console.log('Logging value:', value); // 副作用
+  return value;
+};
+</code></pre>
+                <h4>Haskellでのアプローチ: デフォルトでの純粋性</h4>
+                <p>
+                    Haskellでは全ての関数がデフォルトで純粋です。副作用を伴う処理は<code>IO</code>モナドという型で明示的に表現され、純粋な世界から隔離されます。これにより、関数の型シグネチャを見るだけで副作用の有無が判断できます。
+                </p>
+<pre><code class="language-haskell">-- Int -> Int -> Int という型を持つ純粋な関数
+pureAdd :: Int -> Int -> Int
+pureAdd a b = a + b
+
+-- Stringを画面に出力するという副作用を持つIOアクション
+-- 型シグネチャに `IO` が含まれることで副作用が明示される
+logAndReturn :: String -> IO String
+logAndReturn value = do
+  putStrLn ("Logging value: " ++ value) -- 副作用を伴うIOアクション
+  return value                         -- IOコンテキスト内で値を返す
+</code></pre>
+            </div>
+
+            <div class="concept">
+                <h3>2.2. 不変性（Immutability）</h3>
+                <p>
+                    一度作成したデータ（オブジェクトや配列）を変更しないという原則です。状態を変更する場合は、元のデータのコピーに変更を加えた新しいデータを作成します。これにより、意図しない状態の書き換えを防ぎ、デバッグを容易にします。
+                </p>
+                <h4>JavaScriptでのアプローチ: 手動での実現</h4>
+                <p>
+                    <code>const</code>は再代入を防ぐのみで、オブジェクトの内部は変更可能です。不変性を保つにはスプレッド構文などを用いますが、ネストされたオブジェクトは参照がコピーされるだけ（浅いコピー）という罠があります。
+                </p>
+<pre><code class="language-js">// スプレッド構文によるイミュータブルな更新
+const user = { id: 1, name: "Alice" };
+const updatedUser = { ...user, name: "Bob" }; // 新しいオブジェクトを作成
+
+// 浅いコピーの問題点: ネストされたオブジェクトは不変性が保たれない
+const complexState = { settings: { theme: "dark" } };
+const newComplexState = { ...complexState };
+newComplexState.settings.theme = "light"; // 元のcomplexStateも変更されてしまう！
+console.log(complexState.settings.theme); // "light"
+</code></pre>
+                <h4>Haskellでのアプローチ: デフォルトでの不変性</h4>
+                <p>
+                    Haskellでは全てのデータがデフォルトで不変です。変数の再代入という概念自体が存在しません。データ構造は「永続データ構造」として実装されており、更新時には変更箇所のみを新しく生成し、残りは元の構造と効率的に共有するため、パフォーマンスも考慮されています。
+                </p>
+<pre><code class="language-haskell">-- レコード構文によるイミュータブルな更新
+-- dataキーワードで独自の型を定義
+data User = User { userId :: Int, userName :: String } deriving (Show)
+
+-- user1を作成
+let user1 = User { userId = 1, userName = "Alice" }
+
+-- user1を基に、userNameだけが異なるuser2を"作成"する
+-- user1自体は一切変更されない
+let user2 = user1 { userName = "Bob" }
+-- user2 は User {userId = 1, userName = "Bob"}
+</code></pre>
+            </div>
+
+            <div class="concept">
+                <h3>2.3. 第一級関数と高階関数</h3>
+                <p>
+                    <strong>第一級関数</strong>とは、関数が変数への代入、引数としての受け渡し、戻り値としての返却など、他の値（数値や文字列など）と同様に扱える性質です。<strong>高階関数</strong>とは、関数を引数に取る、または関数を戻り値として返す関数のことです。これにより、抽象度の高いコードが書けます。
+                </p>
+                <h4>JavaScriptでのアプローチ: データ操作の基本ツール</h4>
+                <p>
+                    <code>map</code>, <code>filter</code>, <code>reduce</code>といった配列メソッドは代表的な高階関数で、宣言的なデータ操作の要となります。
+                </p>
+<pre><code class="language-js">const numbers = [1, 2, 3, 4];
+const double = (x) => x * 2;
+const isEven = (x) => x % 2 === 0;
+
+// map: 各要素に関数を適用した新しい配列を返す
+const doubled = numbers.map(double); // [2, 4, 6, 8]
+
+// filter: 条件を満たす要素だけの新しい配列を返す
+const evens = numbers.filter(isEven); // [2, 4]
+</code></pre>
+                <h4>Haskellでのアプローチ: 制御構造の代替</h4>
+                <p>
+                    Haskellには命令型の<code>for</code>や<code>while</code>ループは存在せず、データ操作は再帰か高階関数で行うのが基本です。<code>map</code>や<code>filter</code>は言語のコア機能として提供されています。
+                </p>
+<pre><code class="language-haskell">-- Haskellのmapとfilter
+-- 型シグネチャ: map :: (a -> b) -> [a] -> [b]
+--             filter :: (a -> Bool) -> [a] -> [a]
+let numbers = [1, 2, 3, 4]
+let double x = x * 2
+let isEven x = x `mod` 2 == 0
+
+let doubled = map double numbers   -- [2, 4, 6, 8]
+let evens   = filter isEven numbers -- [2, 4]
+</code></pre>
+            </div>
+
+            <div class="concept">
+                <h3>2.4. カリー化、部分適用、関数合成</h3>
+                <p>
+                    これらは小さな関数を組み合わせて、より複雑な機能を作るための強力な技法です。
+                    <ul>
+                        <li><strong>カリー化:</strong> 複数引数を取る関数を、1つの引数を取る関数の連鎖に変換すること。</li>
+                        <li><strong>部分適用:</strong> 複数引数関数のうち、いくつかの引数を先に固定して新しい関数を作ること。</li>
+                        <li><strong>関数合成:</strong> ある関数の出力を別の関数の入力としてつなげること (f(g(x)))。</li>
+                    </ul>
+                </p>
+                <h4>JavaScriptでのアプローチ: 手動実装のパターン</h4>
+                <p>
+                    クロージャを利用してカリー化を模倣し、関数合成のためのヘルパー関数を自作するのが一般的です。
+                </p>
+<pre><code class="language-js">// カリー化と部分適用
+const multiply = (a) => (b) => a * b;
+const double = multiply(2); // 部分適用により、2倍する関数ができた
+console.log(double(10)); // 20
+
+// 関数合成
+const compose = (f, g) => (x) => f(g(x));
+const add1 = (x) => x + 1;
+const add1AndDouble = compose(double, add1); // 最初にadd1、次にdouble
+console.log(add1AndDouble(5)); // 12  (double(add1(5)))
+</code></pre>
+                <h4>Haskellでのアプローチ: 言語レベルのサポート</h4>
+                <p>
+                    Haskellでは全ての関数がデフォルトでカリー化されています。これにより部分適用が極めて自然に行えます。関数合成には専用の<code>.</code>演算子が用意されています。
+                </p>
+<pre><code class="language-haskell">-- 全ての関数が自動でカリー化されている
+multiply :: Int -> Int -> Int
+multiply a b = a * b
+
+-- multiply 2 は自動的に部分適用となり、新しい関数を生成する
+let double = multiply 2
+
+-- ghci> double 10
+-- 20
+
+-- 関数合成演算子 `.`
+add1 :: Int -> Int
+add1 x = x + 1
+
+-- (f . g) x は f(g(x)) と同じ
+let add1AndDouble = double . add1
+
+-- ghci> add1AndDouble 5
+-- 12
+</code></pre>
+            </div>
+
+             <div class="concept">
+                <h3>2.5. 代数的データ型（ADT）とパターンマッチング</h3>
+                <p>
+                    <strong>代数的データ型</strong>は、既存の型を組み合わせて新しい型を作る仕組みです。「複数の型が同時に存在する」<strong>積型</strong>（タプルやレコード）と、「いずれか一つの型である」<strong>和型</strong>（バリアント型）があります。これにより、ドメインのモデルを正確かつ安全に表現できます。<strong>パターンマッチング</strong>は、ADTの構造に応じて処理を分岐させる強力な構文です。
+                </p>
+                <h4>JavaScriptでのアプローチ: 模倣と限界</h4>
+                <p>
+                    JSにはADTが組み込まれていません。オブジェクトのプロパティやTypeScriptのUnion型などを用いて模倣しますが、コンパイラによる網羅性チェック（全ての可能性を尽くしているか）は得られません。
+                </p>
+<pre><code class="language-js">// 和型を模倣する
+// { type: 'Success', data: '...' } または { type: 'Failure', error: '...' }
+function handleResult(result) {
+  switch (result.type) {
+    case 'Success':
+      return `Data received: ${result.data}`;
+    case 'Failure':
+      return `Error occurred: ${result.error}`;
+    // defaultケースを忘れると、新しいtypeが追加された時にバグになる
+  }
 }
-const counter1 = createCounter();
-console.log(counter1()); // 1
-console.log(counter1()); // 2
 </code></pre>
+                <h4>Haskellでのアプローチ: 中核機能としてのADT</h4>
+                <p>
+                    HaskellではADTが言語の中核です。<code>data</code>キーワードで簡単に定義でき、<code>case</code>式によるパターンマッチングでは、コンパイラが全てのパターンを網羅しているかチェックしてくれます。これにより、実行時エラーの多くをコンパイル時に排除できます。
+                </p>
+<pre><code class="language-haskell">-- `Either a b` はHaskellに標準で存在する代表的な和型
+-- data Either a b = Left a | Right b
+-- Leftは失敗、Rightは成功を表す慣習
 
-            <h3>カリー化と関数合成</h3>
-            <p>
-                クロージャを活用することで、<strong>カリー化 (Currying)</strong>—複数の引数を取る関数を、単一の引数を取る関数の連鎖に変換する技法—を実装できます。これにより、関数の再利用性が高まり、部分適用（一部の引数だけを先に適用して新しい関数を作ること）が容易になります。
-            </p>
-<pre><code class="language-js">// カリー化された add 関数の例
-const add = (x) => (y) => x + y;
-const add5 = add(5); // y => 5 + y という新しい関数を生成（部分適用）
-console.log(add5(3)); // 8
-
-// 関数の合成 (Composition)
-const compose = (...fns) => (x) => fns.reduceRight((acc, fn) => fn(acc), x);
-const toUpperCase = (str) => str.toUpperCase();
-const exclaim = (str) => `${str}!`;
-const shout = compose(exclaim, toUpperCase);
-console.log(shout("hello")); // "HELLO!"
+handleResult :: Either String Int -> String
+handleResult result =
+  case result of
+    Right dataVal -> "Data received: " ++ show dataVal
+    Left errorMsg -> "Error occurred: " ++ errorMsg
+-- ここでLeftかRightのどちらかのパターンを書き忘れると、コンパイラが警告を出す
 </code></pre>
+            </div>
 
-            <h3>純粋性と参照透過性</h3>
-            <p>
-                純粋な関数は、同じ入力に対して常に同じ出力を返し、観測可能な副作用（Side Effect）を持たない関数です。この性質は**参照透過性 (Referential Transparency)** を保証します。つまり、関数呼び出しをその結果の値で置き換えても、プログラムの動作は一切変わらないということです。参照透過性は、コードの推論を容易にし、積極的なキャッシュ（メモ化）や最適化を可能にします。
-                <br>
-                しかし、JavaScriptは言語仕様として純粋性を強制しません。DOM操作、`console.log`、ネットワークリクエスト、グローバル変数の変更など、あらゆる副作用が許容されており、純粋性の維持は開発者の規律に依存します。
-            </p>
-
-            <h3>不変性: 浅いコピーと深いコピーの課題</h3>
-            <p>
-                イミュータビリティ（不変性）の実践は、FPにおける状態管理の要です。JavaScriptの`const`は再代入を防ぐだけで、オブジェクトや配列のプロパティ変更（ミューテーション）は防げません。スプレッド構文 (`...`) や `Object.assign` を使ったコピーは**浅いコピー (Shallow Copy)** であり、ネストされたオブジェクトは参照が共有されるため、意図せずミューテーションを引き起こす可能性があります。
-            </p>
-<pre><code class="language-js">// 浅いコピーの問題点
-const state = { user: { name: "Alice", address: { city: "Tokyo" } } };
-const newState = { ...state }; // 浅いコピー
-
-newState.user.name = "Bob"; // 元の state も変更されてしまう！
-console.log(state.user.name); // "Bob"
-</code></pre>
-            <p>この問題を解決し、完全な不変性（Deep Immutability）を保証するためには、`structuredClone` APIを利用するか、ImmerやImmutable.jsといった専門のライブラリを用いるのが一般的です。</p>
         </section>
-
-        <section id="haskell">
-            <h2>Haskell: 理論に裏打ちされた純粋関数型言語</h2>
-            <img src="haskell-logo.png" alt="Haskell Logo" class="logo-image">
-            <p>
-                Haskellは、その設計全体が関数型プログラミングの原則、特に純粋性、静的型付け、遅延評価に基づいて構築されています。これは「もしFPの原則が本当に優れているのなら、それを徹底した言語はどうなるか？」という問いへの一つの答えです。
-            </p>
-            
-            <h3>純粋性の徹底とモナドによる副作用の管理</h3>
-            <p>
-                Haskellでは、全ての関数がデフォルトで純粋です。では、どうやって副作用を扱うのでしょうか。その答えが**モナド (Monad)** です。`IO`モナドを例に取ると、`IO String` という型を持つ値は、「`String`を返す副作用を伴う計算」そのものを表現する「値」です。これは計算のレシピのようなもので、それ自体は純粋です。
-                <br>
-                この「計算のレシピ」を実行するのはHaskellのランタイムシステムだけであり、プログラマが書くコードの大部分は純粋な世界のまま保たれます。`do`記法は、こうしたモナド的な値を扱うための一連の処理を、命令型のように見やすく書くためのシンタックスシュガー（糖衣構文）です。
-            </p>
-<pre><code class="language-haskell">-- mainはIOアクション。Haskellプログラムのエントリーポイント
-main :: IO ()
-main = do
-  putStrLn "What is your name?" -- putStrLn :: String -> IO ()
-  name <- getLine                -- getLine :: IO String
-  let greeting = "Hello, " ++ name ++ "!"
-  putStrLn greeting
-</code></pre>
-            <p>このコードでは、`name <- getLine` が `IO` という文脈（コンテキスト）から値を取り出しています。型システムが `IO` を追跡するため、どこで副作用が発生しうるかが静的に保証されます。</p>
-
-            <h3>Hindley-Milnerベースの型システムと型クラス</h3>
-            <p>
-                Haskellは**Hindley-Milner**という強力な型システムを基礎としています。これにより、完全な型安全性を保ちながら、コンパイラがほとんどの型を推論してくれます。さらに、**型クラス (Typeclass)** という仕組みにより、アドホック多相（特定の振る舞いを共有する型に対して、共通のインターフェースを定義する機能）を実現します。これはJavaやC#のインターフェースに似ていますが、より強力です。
-            </p>
-<pre><code class="language-haskell">-- 型クラス`Eq`の制約を持つ関数。`a`は`==`で比較可能な任意の型
--- `a` は型変数であり、パラメトリック多相を実現している
-isEqual :: Eq a => a -> a -> Bool
-isEqual x y = x == y
-
--- `isEqual`はIntでもStringでも、Eqインスタンスを持つ型なら何でも使える
--- ghci> isEqual 1 1       -- True
--- ghci> isEqual "a" "b"   -- False
-</code></pre>
-
-            <h3>デフォルトでの不変性と永続データ構造</h3>
-            <p>
-                Haskellのデータ構造は不変であるだけでなく、**永続的 (Persistent)** です。これは、データ構造を更新する際に、既存の構造を破壊せず、変更部分のみを新しく作成し、変更されなかった部分は元の構造と効率的に共有することを意味します。これにより、見かけ上は毎回新しいデータを作成しているように見えても、メモリ効率とパフォーマンスが大幅に向上します。
-            </p>
-            
-            <h3>デフォルトでのカリー化と遅延評価</h3>
-            <p>
-                Haskellでは、全ての関数がデフォルトでカリー化されています。公式には、全ての関数は引数を一つしか取りません。`add x y` は、実際には `(add x) y` と解釈され、`add`関数が引数 `x` を受け取って「引数 `y` を受け取って結果を返す新しい関数」を返します。
-                <br>
-                また、**遅延評価 (Lazy Evaluation)** により、式はその値が必要になるまで評価されません。これにより、無限のデータ構造を扱うことが可能になります。例えば `[1..]` は1から始まる無限の整数のリストですが、`take 5 [1..]` のように必要な分だけを取り出すことができるため、問題なく動作します。
-            </p>
-<pre><code class="language-haskell">-- 遅延評価の例
--- `numbers`は無限リストだが、`take 5`によって最初の5つしか評価されない
-numbers :: [Integer]
-numbers = [1..]
-
-firstFive :: [Integer]
-firstFive = take 5 numbers -- [1, 2, 3, 4, 5]
-</code></pre>
-        </section>
+        <hr>
 
         <section id="summary-table">
-            <h2>機能と思想の比較表</h2>
-            <p>これまでの議論を、より厳密な観点から表にまとめます。</p>
+            <h2>3. まとめ: 設計思想の比較</h2>
+            <p>
+                JavaScriptは、Webのエコシステムの中で実践的な要求に応えながら、FPの強力なパターンを選択的に取り入れることで進化してきました。そのアプローチは柔軟で実用主義的です。
+                <br>
+                一方、Haskellは計算機科学の理論を背景に、プログラムの正しさと表現力を最大化するためにFPの原則を徹底しています。そのアプローチは厳格で理論的です。
+            </p>
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
-                            <th>概念</th>
-                            <th>JavaScript (ECMAScript)</th>
-                            <th>Haskell</th>
+                            <th>概念 / 特徴</th>
+                            <th>JavaScript アプローチ</th>
+                            <th>Haskell アプローチ</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>パラダイム</strong></td>
-                            <td>マルチパラダイム（命令型, OOP, FP）</td>
-                            <td>純粋関数型</td>
+                            <td><strong>基本思想</strong></td>
+                            <td>柔軟なマルチパラダイム。FPは選択肢の一つ。</td>
+                            <td>純粋関数型。FPが言語の基盤。</td>
                         </tr>
                         <tr>
                             <td><strong>純粋性</strong></td>
                             <td>規律として実践。副作用は制限されない。</td>
-                            <td>デフォルトで強制。副作用はモナドで厳密に分離。</td>
-                        </tr>
-                        <tr>
-                            <td><strong>参照透過性</strong></td>
-                            <td>純粋な関数でのみ成立。保証はされない。</td>
-                            <td>言語の基本特性として保証される。</td>
-                        </tr>
-                        <tr>
-                            <td><strong>型システム</strong></td>
-                            <td>動的型付け、弱い型付け。</td>
-                            <td>静的型付け、強い型付け（Hindley-Milnerベース）。</td>
+                            <td>デフォルトで強制。副作用は型システム(<code>IO</code>)で管理。</td>
                         </tr>
                         <tr>
                             <td><strong>不変性</strong></td>
-                            <td>手動で管理。浅いコピーが基本。</td>
-                            <td>デフォルトで不変。永続データ構造が基本。</td>
+                            <td>手動で実現。浅いコピーに注意が必要。</td>
+                            <td>デフォルトで不変。永続データ構造で効率化。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>型システム</strong></td>
+                            <td>動的型付け。(TypeScriptで静的型付けを追加)</td>
+                            <td>強力な静的型付けと型推論（Hindley-Milner）。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>データ構造の表現</strong></td>
+                            <td>オブジェクトと配列。ADTは模倣する。</td>
+                            <td>代数的データ型(ADT)とパターンマッチングが中核。</td>
                         </tr>
                         <tr>
                             <td><strong>カリー化</strong></td>
                             <td>手動で実装するデザインパターン。</td>
-                            <td>言語の基本機能。全関数がデフォルトでカリー化。</td>
+                            <td>言語の基本機能。全関数が自動でカリー化。</td>
                         </tr>
                         <tr>
-                            <td><strong>評価戦略</strong></td>
-                            <td>正格評価（Eager Evaluation）。</td>
-                            <td>遅延評価（Lazy Evaluation）。</td>
+                            <td><strong>関数合成</strong></td>
+                            <td>ヘルパー関数で実現するパターン。</td>
+                            <td>専用の <code>.</code> 演算子として提供。</td>
                         </tr>
                         <tr>
-                            <td><strong>副作用の扱い</strong></td>
-                            <td>制約なく実行可能。</td>
-                            <td>型システム（例: `IO`モナド）によって追跡・管理。</td>
+                            <td><strong>イテレーション</strong></td>
+                            <td>命令型ループ(<code>for</code>)と高階関数(<code>map</code>)が混在。</td>
+                            <td>再帰と高階関数が基本。</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
-
         <section class="reference-links">
             <h2>参考リンク</h2>
             <ul>
                 <li><a href="https://developer.mozilla.org/ja/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer">MDN Web Docs: JavaScript</a></li>
                 <li><a href="https://www.haskell.org/" target="_blank" rel="noopener noreferrer">Haskell Language Official Website</a></li>
-                <li><a href="https://www.typescriptlang.org/ja/" target="_blank" rel="noopener noreferrer">TypeScript: JavaScriptに型を追加</a></li>
-                 <li><a href="http://learnyouahaskell.com/chapters" target="_blank" rel="noopener noreferrer">Learn You a Haskell for Great Good! (やさしいHaskell入門)</a></li>
+                <li><a href="http://learnyouahaskell.com/chapters" target="_blank" rel="noopener noreferrer">Learn You a Haskell for Great Good! (やさしいHaskell入門)</a></li>
             </ul>
         </section>
     </main>
