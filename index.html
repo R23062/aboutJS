@@ -3,137 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JavaScriptとHaskellにおける関数型プログラミングの比較</title>
+    <title>【詳細解説】JavaScriptとHaskellにおける関数型プログラミングの比較</title>
     <link rel="stylesheet" href="main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Source+Code+Pro&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <header class="hero">
         <div class="container">
-            <h1>JavaScriptとHaskell<br>関数型プログラミングスタイルの違い</h1>
-            <p>どちらも関数型のアプローチを取り入れられますが、その哲学と実装には大きな違いがあります。</p>
+            <h1>JavaScriptとHaskell<br>関数型プログラミングスタイルの詳細比較</h1>
+            <p>両言語における関数型パラダイムの設計思想、実装、およびその理論的背景を深く探る。</p>
         </div>
     </header>
 
     <main class="container">
         <section id="intro">
-            <h2>はじめに: 関数型プログラミングとは？</h2>
+            <h2>序論: なぜこの比較が重要なのか</h2>
             <p>
-                関数型プログラミング（Functional Programming, FP）は、プログラムの構成要素として**「純粋な関数」**の組み合わせを基本に据えるプログラミングパラダイムです。状態の変更や可変データ（mutable data）を避け、「宣言的」に「何を」達成したいかを記述することに重きを置きます。
+                関数型プログラミング（FP）は、計算を数学的な関数の評価としてモデル化し、状態の変更とデータの可変性を最小化するパラダイムです。このアプローチは、プログラムの正当性を証明しやすく、並行処理にも強いという特性から、現代のソフトウェア開発においてその重要性を増しています。
                 <br><br>
-                近年、状態管理の複雑さを軽減できる点から、JavaScript界隈でもFPの考え方が注目されています。一方で、Haskellは純粋関数型言語として、その思想を言語の根幹から体現しています。ここでは、両者のアプローチの違いを詳しく見ていきましょう。
+                JavaScriptは、Webのデファクトスタンダードとして進化する中で、FPのパターンを柔軟に取り入れてきました。一方、Haskellは学術研究から生まれた純粋関数型言語であり、FPの原則を妥協なく追求しています。この両極端なアプローチを詳細に比較することで、関数型プログラミングの本質と、実用上のトレードオフを深く理解することができます。
             </p>
         </section>
 
         <section id="javascript">
-            <h2>JavaScript: 柔軟なマルチパラダイム言語</h2>
+            <h2>JavaScript: 実用主義的な関数型プログラミング</h2>
             <img src="javascript-logo.png" alt="JavaScript Logo" class="logo-image">
             <p>
-                JavaScriptは、関数を第一級オブジェクトとして扱うため、関数型プログラミングの多くの機能を利用できます。しかし、それはあくまで選択肢の一つであり、言語レベルでの強制はありません。
+                JavaScriptの強みは、その柔軟性にあります。オブジェクト指向、命令型、そして関数型といった複数のパラダイムを、開発者が自由に組み合わせることが許されています。
             </p>
             
-            <h3>第一級関数と高階関数</h3>
+            <h3>第一級関数と高階関数、そしてクロージャ</h3>
             <p>
-                関数を変数に格納したり、他の関数の引数や戻り値として扱えることを「第一級関数」と呼びます。これを利用し、関数を引数に取る関数（高階関数）を容易に作成できます。<code>map</code>や<code>filter</code>はその代表例です。
+                JavaScriptにおける関数の強力さは、それが「第一級オブジェクト」である点に起因します。これにより、関数はデータと同様に扱え、高階関数（関数を引数に取る、または関数を返す関数）の実装が容易になります。この性質を支えるのが**クロージャ**です。クロージャは、関数が定義された時点のスコープ（レキシカルスコープ）を記憶する機能であり、これにより関数がスコープ外で実行されても、定義時の環境にアクセスできます。
             </p>
-<pre><code>// 高階関数 filter の使用例
-const numbers = [1, 2, 3, 4, 5, 6];
-const isEven = (n) => n % 2 === 0;
-const evenNumbers = numbers.filter(isEven); // [2, 4, 6]
-</code></pre>
-
-            <h3>純粋性: 規律としての実践</h3>
-            <p>
-                純粋な関数（同じ入力に対して常に同じ出力を返し、副作用を持たない関数）を書くことは可能ですが、JavaScriptは副作用（コンソール出力、DOM操作、API通信など）を自由に許します。純粋性を保つかどうかは、開発者の規律に委ねられます。
-            </p>
-<pre><code>// 純粋ではない関数の例（外部の状態に依存）
-let taxRate = 1.1;
-function calculatePrice(price) {
-  return price * taxRate; // taxRateが外部で変更されると結果が変わる
+<pre><code class="language-js">// クロージャを利用したカウンターの例
+function createCounter() {
+  let count = 0;
+  return function() {
+    count++;
+    return count;
+  };
 }
+const counter1 = createCounter();
+console.log(counter1()); // 1
+console.log(counter1()); // 2
 </code></pre>
-            
-            <h3>不変性 (Immutability): 手動での実現</h3>
-            <p>
-                <code>const</code> は変数の「再代入」を防ぎますが、オブジェクトや配列の「中身」の変更（ミューテーション）は防げません。不変性を保つには、スプレッド構文などを用いて意図的に新しいオブジェクトを作成する工夫が必要です。
-            </p>
-<pre><code>// constでもオブジェクトの中身は変更可能
-const user = { name: "Alice" };
-user.name = "Bob"; // これはエラーにならない
 
-// 不変性を保つには新しいオブジェクトを作成する
-const updatedUser = { ...user, age: 30 };
+            <h3>カリー化と関数合成</h3>
+            <p>
+                クロージャを活用することで、<strong>カリー化 (Currying)</strong>—複数の引数を取る関数を、単一の引数を取る関数の連鎖に変換する技法—を実装できます。これにより、関数の再利用性が高まり、部分適用（一部の引数だけを先に適用して新しい関数を作ること）が容易になります。
+            </p>
+<pre><code class="language-js">// カリー化された add 関数の例
+const add = (x) => (y) => x + y;
+const add5 = add(5); // y => 5 + y という新しい関数を生成（部分適用）
+console.log(add5(3)); // 8
+
+// 関数の合成 (Composition)
+const compose = (...fns) => (x) => fns.reduceRight((acc, fn) => fn(acc), x);
+const toUpperCase = (str) => str.toUpperCase();
+const exclaim = (str) => `${str}!`;
+const shout = compose(exclaim, toUpperCase);
+console.log(shout("hello")); // "HELLO!"
 </code></pre>
+
+            <h3>純粋性と参照透過性</h3>
+            <p>
+                純粋な関数は、同じ入力に対して常に同じ出力を返し、観測可能な副作用（Side Effect）を持たない関数です。この性質は**参照透過性 (Referential Transparency)** を保証します。つまり、関数呼び出しをその結果の値で置き換えても、プログラムの動作は一切変わらないということです。参照透過性は、コードの推論を容易にし、積極的なキャッシュ（メモ化）や最適化を可能にします。
+                <br>
+                しかし、JavaScriptは言語仕様として純粋性を強制しません。DOM操作、`console.log`、ネットワークリクエスト、グローバル変数の変更など、あらゆる副作用が許容されており、純粋性の維持は開発者の規律に依存します。
+            </p>
+
+            <h3>不変性: 浅いコピーと深いコピーの課題</h3>
+            <p>
+                イミュータビリティ（不変性）の実践は、FPにおける状態管理の要です。JavaScriptの`const`は再代入を防ぐだけで、オブジェクトや配列のプロパティ変更（ミューテーション）は防げません。スプレッド構文 (`...`) や `Object.assign` を使ったコピーは**浅いコピー (Shallow Copy)** であり、ネストされたオブジェクトは参照が共有されるため、意図せずミューテーションを引き起こす可能性があります。
+            </p>
+<pre><code class="language-js">// 浅いコピーの問題点
+const state = { user: { name: "Alice", address: { city: "Tokyo" } } };
+const newState = { ...state }; // 浅いコピー
+
+newState.user.name = "Bob"; // 元の state も変更されてしまう！
+console.log(state.user.name); // "Bob"
+</code></pre>
+            <p>この問題を解決し、完全な不変性（Deep Immutability）を保証するためには、`structuredClone` APIを利用するか、ImmerやImmutable.jsといった専門のライブラリを用いるのが一般的です。</p>
         </section>
 
         <section id="haskell">
-            <h2>Haskell: 純粋性を貫く言語</h2>
+            <h2>Haskell: 理論に裏打ちされた純粋関数型言語</h2>
             <img src="haskell-logo.png" alt="Haskell Logo" class="logo-image">
             <p>
-                Haskellは、その設計思想の核として「純粋性」を据えています。これにより、プログラムの予測可能性や安全性が劇的に向上します。
+                Haskellは、その設計全体が関数型プログラミングの原則、特に純粋性、静的型付け、遅延評価に基づいて構築されています。これは「もしFPの原則が本当に優れているのなら、それを徹底した言語はどうなるか？」という問いへの一つの答えです。
             </p>
             
-            <h3>純粋性と副作用の厳格な分離</h3>
+            <h3>純粋性の徹底とモナドによる副作用の管理</h3>
             <p>
-                Haskellでは、すべての関数がデフォルトで純粋です。ファイルの読み書きやデータベースへのアクセスといった副作用を伴う処理は、<code>IO</code>モナドのような特別な型を持つ値として表現されます。これにより、関数の型シグネチャ（型定義）を見るだけで、その関数が副作用を持つかどうかが一目瞭然になります。
+                Haskellでは、全ての関数がデフォルトで純粋です。では、どうやって副作用を扱うのでしょうか。その答えが**モナド (Monad)** です。`IO`モナドを例に取ると、`IO String` という型を持つ値は、「`String`を返す副作用を伴う計算」そのものを表現する「値」です。これは計算のレシピのようなもので、それ自体は純粋です。
+                <br>
+                この「計算のレシピ」を実行するのはHaskellのランタイムシステムだけであり、プログラマが書くコードの大部分は純粋な世界のまま保たれます。`do`記法は、こうしたモナド的な値を扱うための一連の処理を、命令型のように見やすく書くためのシンタックスシュガー（糖衣構文）です。
             </p>
-<pre><code>-- 関数の型シグネチャ
--- `String` を受け取り、副作用を伴って `()` (Unit) を返す
-putStrLn :: String -> IO ()
-
--- `Int` を2つ受け取り、純粋に `Int` を返す
-add :: Int -> Int -> Int
-add x y = x + y
+<pre><code class="language-haskell">-- mainはIOアクション。Haskellプログラムのエントリーポイント
+main :: IO ()
+main = do
+  putStrLn "What is your name?" -- putStrLn :: String -> IO ()
+  name <- getLine                -- getLine :: IO String
+  let greeting = "Hello, " ++ name ++ "!"
+  putStrLn greeting
 </code></pre>
+            <p>このコードでは、`name <- getLine` が `IO` という文脈（コンテキスト）から値を取り出しています。型システムが `IO` を追跡するため、どこで副作用が発生しうるかが静的に保証されます。</p>
+
+            <h3>Hindley-Milnerベースの型システムと型クラス</h3>
+            <p>
+                Haskellは**Hindley-Milner**という強力な型システムを基礎としています。これにより、完全な型安全性を保ちながら、コンパイラがほとんどの型を推論してくれます。さらに、**型クラス (Typeclass)** という仕組みにより、アドホック多相（特定の振る舞いを共有する型に対して、共通のインターフェースを定義する機能）を実現します。これはJavaやC#のインターフェースに似ていますが、より強力です。
+            </p>
+<pre><code class="language-haskell">-- 型クラス`Eq`の制約を持つ関数。`a`は`==`で比較可能な任意の型
+-- `a` は型変数であり、パラメトリック多相を実現している
+isEqual :: Eq a => a -> a -> Bool
+isEqual x y = x == y
+
+-- `isEqual`はIntでもStringでも、Eqインスタンスを持つ型なら何でも使える
+-- ghci> isEqual 1 1       -- True
+-- ghci> isEqual "a" "b"   -- False
+</code></pre>
+
+            <h3>デフォルトでの不変性と永続データ構造</h3>
+            <p>
+                Haskellのデータ構造は不変であるだけでなく、**永続的 (Persistent)** です。これは、データ構造を更新する際に、既存の構造を破壊せず、変更部分のみを新しく作成し、変更されなかった部分は元の構造と効率的に共有することを意味します。これにより、見かけ上は毎回新しいデータを作成しているように見えても、メモリ効率とパフォーマンスが大幅に向上します。
+            </p>
             
-            <h3>強力な静的型付けと型推論</h3>
+            <h3>デフォルトでのカリー化と遅延評価</h3>
             <p>
-                Haskellはコンパイル時に厳格な型チェックを行いますが、開発者がすべての型を明記する必要はありません。コンパイラが文脈から型を推論する「型推論」が非常に強力なため、安全でありながらも簡潔なコードを記述できます。
+                Haskellでは、全ての関数がデフォルトでカリー化されています。公式には、全ての関数は引数を一つしか取りません。`add x y` は、実際には `(add x) y` と解釈され、`add`関数が引数 `x` を受け取って「引数 `y` を受け取って結果を返す新しい関数」を返します。
+                <br>
+                また、**遅延評価 (Lazy Evaluation)** により、式はその値が必要になるまで評価されません。これにより、無限のデータ構造を扱うことが可能になります。例えば `[1..]` は1から始まる無限の整数のリストですが、`take 5 [1..]` のように必要な分だけを取り出すことができるため、問題なく動作します。
             </p>
+<pre><code class="language-haskell">-- 遅延評価の例
+-- `numbers`は無限リストだが、`take 5`によって最初の5つしか評価されない
+numbers :: [Integer]
+numbers = [1..]
 
-            <h3>デフォルトでの不変性</h3>
-            <p>
-                Haskellでは、一度作成したデータは変更不可能です。変数への再代入という概念もありません。データに変更を加えたい場合は、元のデータに基づいて新しいデータを作成します。これにより、意図しない状態変更に起因するバグを根本的に排除します。
-            </p>
-
-            <h3>遅延評価</h3>
-            <p>
-                式は、その値がプログラムの最終出力で実際に必要になるまで評価されません。この「遅延評価」により、無限リストのような理論上は無限に続くデータ構造を効率的に扱うことができます。
-            </p>
+firstFive :: [Integer]
+firstFive = take 5 numbers -- [1, 2, 3, 4, 5]
+</code></pre>
         </section>
 
-        <section id="comparison">
-            <h2>まとめ: 設計思想の根本的な違い</h2>
-            <p>
-                JavaScriptが既存の命令型プログラミングにFPのツールを取り入れて利便性を高めているのに対し、HaskellはFPの原則を貫くことでプログラムの堅牢性と安全性を追求しています。
-            </p>
-            <ol>
-                <li><strong>純粋性:</strong>
-                    Haskellは「デフォルトで純粋、副作用は明示的に分離」、JavaScriptは「副作用が自由、純粋性は規律で維持」。
-                </li>
-                <li><strong>型システム:</strong>
-                    Haskellは「強力な静的型付けと型推論」、JavaScriptは「動的型付け」（TypeScriptで静的型付けを導入可能）。
-                </li>
-                <li><strong>不変性:</strong>
-                    Haskellは「デフォルトで不変」、JavaScriptは「手動で実現（規約やライブラリが必要）」。
-                </li>
-                <li><strong>評価戦略:</strong>
-                    Haskellは「遅延評価」、JavaScriptは「正格評価（Eager Evaluation）」。
-                </li>
-            </ol>
-            <p>
-                どちらの言語が良いというわけではなく、プロジェクトの目的やチームのスキルセットに応じて、適切なツールとアプローチを選択することが重要です。
-            </p>
+        <section id="summary-table">
+            <h2>機能と思想の比較表</h2>
+            <p>これまでの議論を、より厳密な観点から表にまとめます。</p>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>概念</th>
+                            <th>JavaScript (ECMAScript)</th>
+                            <th>Haskell</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>パラダイム</strong></td>
+                            <td>マルチパラダイム（命令型, OOP, FP）</td>
+                            <td>純粋関数型</td>
+                        </tr>
+                        <tr>
+                            <td><strong>純粋性</strong></td>
+                            <td>規律として実践。副作用は制限されない。</td>
+                            <td>デフォルトで強制。副作用はモナドで厳密に分離。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>参照透過性</strong></td>
+                            <td>純粋な関数でのみ成立。保証はされない。</td>
+                            <td>言語の基本特性として保証される。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>型システム</strong></td>
+                            <td>動的型付け、弱い型付け。</td>
+                            <td>静的型付け、強い型付け（Hindley-Milnerベース）。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>不変性</strong></td>
+                            <td>手動で管理。浅いコピーが基本。</td>
+                            <td>デフォルトで不変。永続データ構造が基本。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>カリー化</strong></td>
+                            <td>手動で実装するデザインパターン。</td>
+                            <td>言語の基本機能。全関数がデフォルトでカリー化。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>評価戦略</strong></td>
+                            <td>正格評価（Eager Evaluation）。</td>
+                            <td>遅延評価（Lazy Evaluation）。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>副作用の扱い</strong></td>
+                            <td>制約なく実行可能。</td>
+                            <td>型システム（例: `IO`モナド）によって追跡・管理。</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
+
 
         <section class="reference-links">
             <h2>参考リンク</h2>
             <ul>
                 <li><a href="https://developer.mozilla.org/ja/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer">MDN Web Docs: JavaScript</a></li>
                 <li><a href="https://www.haskell.org/" target="_blank" rel="noopener noreferrer">Haskell Language Official Website</a></li>
+                <li><a href="https://www.typescriptlang.org/ja/" target="_blank" rel="noopener noreferrer">TypeScript: JavaScriptに型を追加</a></li>
+                 <li><a href="http://learnyouahaskell.com/chapters" target="_blank" rel="noopener noreferrer">Learn You a Haskell for Great Good! (やさしいHaskell入門)</a></li>
             </ul>
         </section>
     </main>
