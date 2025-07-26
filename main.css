@@ -1,55 +1,121 @@
-/* main.css */
-
-/* 基本的なリセットとタイポグラフィ */
+/* 基本設定とフォント */
 body {
+    font-family: 'Noto Sans JP', sans-serif;
+    line-height: 1.7;
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    /* Tailwind CSS handles font-family, text-color, and line-height */
+    background-color: #f8f9fa; /* 明るいグレーの背景 */
+    color: #343a40; /* 濃いグレーの文字色 */
 }
 
-/* コンテナの幅と中央寄せはTailwind CSSの`container`, `mx-auto`で処理 */
-/* パディングはTailwind CSSの`p-4`, `md:p-8`で処理 */
-
-/* ヘッダーのスタイル */
-/* h1, p のスタイルはTailwind CSSで直接指定 */
-
-/* セクションのスタイル */
-/* 背景色、パディング、角丸、影はTailwind CSSで直接指定 */
-
-/* 見出しのスタイル */
-/* h2 のスタイルはTailwind CSSで直接指定 */
-
-/* 段落のスタイル */
-/* p のスタイルはTailwind CSSで直接指定 */
-
-/* 画像のスタイル */
-img {
-    max-width: 100%; /* レスポンシブ対応 */
-    height: auto; /* アスペクト比を維持 */
-    display: block; /* 余分なスペースを削除 */
-    /* 角丸と影はTailwind CSSで直接指定 */
+/* コンテナ */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
-/* リストのスタイル */
-ul {
-    list-style-type: disc; /* デフォルトのディスク */
-    /* パディングとスペースはTailwind CSSで直接指定 */
+/* ヒーローセクション（ヘッダー） */
+.hero {
+    background-color: #4A148C; /* 紫系の背景 */
+    color: #ffffff;
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 5px solid #7B1FA2;
 }
 
-/* リンクのスタイル */
+.hero h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-top: 10px;
+}
+
+/* メインコンテンツ */
+main {
+    padding: 30px 0;
+}
+
+section {
+    background-color: #ffffff;
+    margin-bottom: 30px;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #4A148C; /* ヒーローセクションと合わせた色 */
+    border-bottom: 2px solid #E1BEE7; /* 薄い紫の下線 */
+    padding-bottom: 10px;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* 画像 */
+.logo-image {
+    display: block;
+    max-width: 150px;
+    height: auto;
+    margin: 20px auto 30px;
+}
+
+/* リスト（箇条書き） */
+ul, ol {
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+/* リンク */
 a {
-    text-decoration: none; /* 下線を削除 */
-    /* 色とホバー効果はTailwind CSSで直接指定 */
+    color: #007bff; /* 標準的なリンク色 */
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
-/* フッターのスタイル */
-/* テキスト色、サイズ、マージンはTailwind CSSで直接指定 */
+a:hover {
+    color: #0056b3; /* ホバー時の色 */
+    text-decoration: underline;
+}
 
-/*
-    このCSSファイルは、Tailwind CSSが提供するユーティリティクラスを補完するために存在します。
-    多くのスタイルはHTML内のTailwindクラスによって直接適用されているため、
-    ここでは一般的な要素のデフォルトスタイルや、Tailwindでカバーしきれない
-    特定のカスタムスタイルを定義することを想定しています。
-    この例では、Tailwind CSSが強力なため、CSSファイルには最小限の記述しかありません。
-*/
+.reference-links ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.reference-links a {
+    font-weight: bold;
+}
+
+/* フッター */
+footer {
+    background-color: #343a40; /* 暗いフッター背景 */
+    color: #f8f9fa;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
