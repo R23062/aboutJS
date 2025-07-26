@@ -19,7 +19,7 @@
     </header>
 
     <main class="container">
-        <section id="fp-overview">
+        <section id="fp-overview" class="animate-on-scroll">
             <h2>1. 関数型プログラミング（FP）とは何か</h2>
             <p>
                 関数型プログラミングとは、計算を<strong>数学的な関数の評価</strong>として捉え、<strong>状態の変更や可変データを避ける</strong>ことを中心に据えた宣言的なプログラミングパラダイムです。命令型プログラミングが「どのように（How）」問題を解決するかを逐次的に記述するのに対し、関数型プログラミングは「何を（What）」達成したいかを記述します。
@@ -50,7 +50,7 @@
         </section>
         <hr>
 
-        <section id="fp-concepts">
+        <section id="fp-concepts" class="animate-on-scroll">
             <h2>2. 関数型プログラミングの構成要素</h2>
             <p>ここではFPを支える主要な概念を一つずつ取り上げ、JavaScriptとHaskellでのアプローチを比較します。</p>
 
@@ -261,7 +261,7 @@ handleResult result =
         </section>
         <hr>
 
-        <section id="summary-table">
+        <section id="summary-table" class="animate-on-scroll">
             <h2>3. まとめ: 設計思想の比較</h2>
             <p>
                 JavaScriptは、Webのエコシステムの中で実践的な要求に応えながら、FPの強力なパターンを選択的に取り入れることで進化してきました。そのアプローチは柔軟で実用主義的です。
@@ -323,7 +323,7 @@ handleResult result =
             </div>
         </section>
 
-        <section class="reference-links">
+        <section class="reference-links" "animate-on-scroll">
             <h2>参考リンク</h2>
             <ul>
                 <li><a href="https://developer.mozilla.org/ja/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer">MDN Web Docs: JavaScript</a></li>
@@ -338,6 +338,11 @@ handleResult result =
             <p>&copy; 2025 Functional Programming Comparison.</p>
         </div>
     </footer>
-
+    
+    <button id="back-to-top-btn" title="トップへ戻る">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </button>
+    
+    <script src="script.js"></script>
 </body>
 </html>
